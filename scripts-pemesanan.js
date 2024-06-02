@@ -1,57 +1,60 @@
-// Fungsi untuk menghitung total harga pemesanan
-const calculateOrderTotalPrice = () => {
-    const pages = parseInt(document.getElementById('pages').value) || 0;
-    const isColor = document.getElementById('color').checked;
-    const pricePerPage = isColor ? 1000 : 500;
-    const total = pages * pricePerPage;
-
-    // Update tampilan total harga
-    document.getElementById('totalOrderPrice').innerText = `Rp ${total.toLocaleString()}`;
+// Fungsi untuk mereset formulir pemesanan
+const resetOrderForm = () => {
+    document.getElementById('orderForm').reset(); // Reset formulir pemesanan
+    document.getElementById('totalOrderPrice').innerText = 'Rp 0'; // Mengatur total harga kembali ke 0
+    document.getElementById('fileDetails').innerText = ''; // Menghapus detail file yang diunggah
 };
 
-// Fungsi untuk memperbarui notifikasi status
-const updateNotification = (status) => {
-    const notifText = document.getElementById('notifText');
-    if (status === 'proses') {
-        notifText.innerText = 'Pemesanan sedang diproses.';
-    } else if (status === 'selesai') {
-        notifText.innerText = 'Pemesanan selesai. Terima kasih!';
+// Fungsi untuk menghitung total harga pemesanan
+const calculateOrderTotalPrice = () => {
+    const fileInput = document.getElementById('file');
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileReader = new FileReader();
+
+        fileReader.onload = function(event) {
+            const typedarray = new Uint8Array(event.target.result);
+            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                const pages = pdf.numPages;
+                const totalPrice = pages * productPricePerPage;
+                document.getElementById('totalOrderPrice').innerText = 'Rp ' + totalPrice.toLocaleString();
+            });
+        };
+
+        fileReader.readAsArrayBuffer(file);
+    } else {
+        document.getElementById('totalOrderPrice').innerText = 'Rp 0';
     }
 };
 
-// Fungsi untuk menjalankan notifikasi berurutan
-const runSequentialNotification = () => {
-    setTimeout(() => updateNotification('proses'), 3000); // 10 detik untuk status "Proses"
-    setTimeout(() => updateNotification('selesai'), 6000); // 15 detik untuk status "Selesai"
+// Fungsi untuk menampilkan notifikasi pemesanan berhasil
+const showOrderNotification = () => {
+    // Menampilkan notifikasi pemesanan berhasil
+    document.getElementById('notification').classList.remove('hidden');
+    document.getElementById('notifText').innerText = 'Pemesanan berhasil! Kami akan menghubungi Anda segera.';
+    
+    // Reset formulir pemesanan setelah notifikasi muncul
+    resetOrderForm();
+
+    // Menyembunyikan notifikasi setelah beberapa detik
+    setTimeout(function() {
+        document.getElementById('notification').classList.add('hidden');
+        window.location.reload(); // Memuat ulang halaman setelah notifikasi menghilang
+    }, 5000); // 5 detik
 };
 
-// Event listener untuk form pemesanan
-document.getElementById('orderForm').addEventListener('submit', event => {
-    event.preventDefault(); // Mencegah form submit
+// Event listener untuk saat formulir pemesanan disubmit
+document.getElementById('orderForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Mencegah perilaku bawaan pengiriman formulir
 
-    // Ambil nilai input dari formulir pemesanan
-    const formData = new FormData(event.target);
-    const orderDetails = {};
+    // Menghitung total harga pemesanan
+    calculateOrderTotalPrice();
 
-    formData.forEach((value, key) => {
-        orderDetails[key] = value;
-    });
-
-    // Simpan data pemesanan ke localStorage
-    localStorage.setItem('copyOrder', JSON.stringify(orderDetails));
-
-    // Tampilkan notifikasi pemesanan
-    const notification = document.getElementById('notification');
-    notification.classList.remove('hidden');
-    document.getElementById('notifText').innerText = 'Pemesanan berhasil! Kami akan menghubungi Anda segera.';
-
-    // Jalankan notifikasi berurutan
-    runSequentialNotification();
+    // Menampilkan notifikasi pemesanan berhasil
+    showOrderNotification();
 });
 
-// Event listener untuk menghitung total harga secara otomatis saat nilai input berubah
-document.getElementById('pages').addEventListener('input', calculateOrderTotalPrice);
-document.getElementById('color').addEventListener('change', calculateOrderTotalPrice);
+// Event listener untuk saat ada perubahan pada input file
+document.getElementById('file').addEventListener('change', calculateOrderTotalPrice);
 
-// Inisialisasi perhitungan awal
-calculateOrderTotalPrice();
+const productPricePerPage = 500; // Harga per halaman
