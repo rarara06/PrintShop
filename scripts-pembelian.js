@@ -8,6 +8,15 @@ const productPrices = {
     'peniti': 1000
 };
 
+// Fungsi untuk mereset formulir pembelian
+const resetPurchaseForm = () => {
+    document.getElementById('purchaseForm').reset(); // Reset formulir pembelian
+    document.querySelectorAll('.quantity').forEach(input => {
+        input.value = ''; // Mengatur semua input jumlah barang kembali kosong
+    });
+    document.getElementById('totalPurchasePrice').innerText = 'Rp 0'; // Mengatur total harga kembali ke 0
+};
+
 // Fungsi untuk menghitung total harga pembelian
 const calculatePurchaseTotalPrice = () => {
     let total = 0;
@@ -24,33 +33,30 @@ const calculatePurchaseTotalPrice = () => {
     document.getElementById('totalPurchasePrice').innerText = 'Rp ' + total.toLocaleString();
 };
 
-// Fungsi untuk menampilkan notifikasi pembelian berhasil
+// Fungsi untuk menampilkan notifikasi pembelian berhasil dan mereset formulir pembelian
 const showPurchaseNotification = () => {
-    document.getElementById('purchaseNotification').classList.remove('hidden');
-    
-    // Simulasikan pelacakan pesanan
+    // Menghitung total harga pembelian sebelum menampilkan notifikasi
+    calculatePurchaseTotalPrice();
+
+    // Menampilkan notifikasi pembelian berhasil
+    const notification = document.getElementById('purchaseNotification');
+    notification.classList.remove('hidden');
+    notification.innerText = 'Pembelian berhasil! Kami akan menghubungi Anda segera.';
+
+    // Reset formulir pembelian dan sembunyikan notifikasi setelah beberapa detik
     setTimeout(function() {
-        document.getElementById('purchaseTracking').classList.remove('hidden');
-        document.getElementById('purchaseOrderStatus').innerText = 'Diproses';
-        
-        // Ubah status menjadi 'Selesai' setelah beberapa detik
-        setTimeout(function() {
-            document.getElementById('purchaseOrderStatus').innerText = 'Selesai';
-        }, 5000); // 15 detik
-    }, 2000); // 10 detik
+        notification.classList.add('hidden');
+        resetPurchaseForm();
+    }, 5000); // 5 detik
 };
 
 // Event listener untuk form pembelian
 document.getElementById('purchaseForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Mencegah perilaku bawaan pengiriman formulir
 
-    // Menghitung total harga pembelian
-    calculatePurchaseTotalPrice();
-
     // Menampilkan notifikasi pembelian berhasil
     showPurchaseNotification();
 });
-
 
 // Event listener untuk setiap input jumlah barang pada pembelian
 document.querySelectorAll('.quantity').forEach(input => {
