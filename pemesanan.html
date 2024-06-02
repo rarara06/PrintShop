@@ -5,34 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrintShop - Pemesanan</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Include PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <!-- Include custom JavaScript for pemesanan -->
+    <script src="scripts-pemesanan.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>PrintShop</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="pemesanan.html">Pemesanan</a>
-            <a href="pembelian.html">Pembelian</a>
-            <a href="kontak.html">Kontak</a>
-        </nav>
+        <h2>Form Pemesanan Produk</h2>
     </header>
     <main>
-        <h2>Form Pemesanan Fotokopi</h2>
         <form id="orderForm">
+            <div class="product" data-id="file">
+                <label for="file">Upload File:</label>
+                <input type="file" id="file" class="file-input" name="file" accept=".pdf" required>
+                <p id="fileDetails"></p>
+                <label for="notes">Notes:</label>
+                <input type="text" id="notes" name="notes">
+            </div>
+            
             <label for="name">Nama:</label>
             <input type="text" id="name" name="name" required>
             
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-
-            <label for="file">Unggah File:</label>
-            <input type="file" id="file" name="file" required>
-
-            <label for="pages">Jumlah Lembar:</label>
-            <input type="number" id="pages" name="pages" required>
-
-            <label for="color">Warna:</label>
-            <input type="checkbox" id="color" name="color">
 
             <label for="payment">Metode Pembayaran:</label>
             <select id="payment" name="payment" required>
@@ -48,7 +44,7 @@
             <button type="submit">Pesan</button>
         </form>
         <div id="notification" class="hidden">
-            <span id="notifText">Pemesanan berhasil! Kami akan menghubungi Anda segera.</span>
+            <p id="notifText"></p>
         </div>
     </main>
     <script src="scripts-pemesanan.js"></script>
