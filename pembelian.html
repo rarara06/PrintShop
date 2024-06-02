@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintShop - Pembelian</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>PrintShop</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="pemesanan.html">Pemesanan</a>
+            <a href="pembelian.html">Pembelian</a>
+            <a href="kontak.html">Kontak</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Form Pembelian Produk</h2>
+        <form id="purchaseForm">
+            <div class="product" data-id="karton">
+                <label for="karton">Karton Warna-warni:</label>
+                <input type="number" id="karton" class="quantity" name="karton">
+                <p>Harga: Rp 5.000</p>
+                <label for="notes-karton">Notes (warna, dll):</label>
+                <input type="text" id="notes-karton" name="notes-karton">
+            </div>
+            <div class="product" data-id="rafia">
+                <label for="rafia">Tali Rafia:</label>
+                <input type="number" id="rafia" class="quantity" name="rafia">
+                <p>Harga: Rp 3.000</p>
+                <label for="notes-rafia">Notes (warna, dll):</label>
+                <input type="text" id="notes-rafia" name="notes-rafia">
+            </div>
+            <div class="product" data-id="kardus">
+                <label for="kardus">Kardus:</label>
+                <input type="number" id="kardus" class="quantity" name="kardus">
+                <p>Harga: Rp 5.000</p>
+                <label for="notes-kardus">Notes (ukuran, dll):</label>
+                <input type="text" id="notes-kardus" name="notes-kardus">
+            </div>
+            <div class="product" data-id="sepatu">
+                <label for="sepatu">Tali Sepatu:</label>
+                <input type="number" id="sepatu" class="quantity" name="sepatu">
+                <p>Harga: Rp 2.000</p>
+                <label for="notes-sepatu">Notes (warna, dll):</label>
+                <input type="text" id="notes-sepatu" name="notes-sepatu">
+            </div>
+            <div class="product" data-id="pita">
+                <label for="pita">Pita:</label>
+                <input type="number" id="pita" class="quantity" name="pita">
+                <p>Harga: Rp 3.000</p>
+                <label for="notes-pita">Notes (warna, dll):</label>
+                <input type="text" id="notes-pita" name="notes-pita">
+            </div>
+            <div class="product" data-id="peniti">
+                <label for="peniti">Peniti:</label>
+                <input type="number" id="peniti" class="quantity" name="peniti">
+                <p>Harga: Rp 1.000</p>
+                <label for="notes-peniti">Notes (ukuran, dll):</label>
+                <input type="text" id="notes-peniti" name="notes-peniti">
+            </div>
+
+            <!-- Sisipkan produk lainnya di sini -->
+            
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="payment">Metode Pembayaran:</label>
+            <select id="payment" name="payment" required>
+                <option value="qris">QRIS (Scan di tempat)</option>
+                <option value="tunai">Tunai</option>
+                <option value="transfer">Transfer</option>
+            </select>
+
+            <div class="total">
+                <h3>Total Harga: <span id="totalPurchasePrice">Rp 0</span></h3>
+            </div>
+
+            <button type="submit">Beli</button>
+        </form>
+        <div id="purchaseNotification" class="hidden">Pembelian berhasil! Kami akan menghubungi Anda segera.</div>
+        <div id="purchaseTracking" class="hidden">Status Pembelian: <span id="purchaseOrderStatus">Diproses</span></div>
+    </main>
+    <script src="scripts-pembelian.js"></script>
+</body>
+</html>

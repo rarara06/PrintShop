@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintShop - Pemesanan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>PrintShop</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="pemesanan.html">Pemesanan</a>
+            <a href="pembelian.html">Pembelian</a>
+            <a href="kontak.html">Kontak</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Form Pemesanan Fotokopi</h2>
+        <form id="orderForm">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="file">Unggah File:</label>
+            <input type="file" id="file" name="file" required>
+
+            <label for="pages">Jumlah Lembar:</label>
+            <input type="number" id="pages" name="pages" required>
+
+            <label for="color">Warna:</label>
+            <input type="checkbox" id="color" name="color">
+
+            <label for="payment">Metode Pembayaran:</label>
+            <select id="payment" name="payment" required>
+                <option value="qris">QRIS (Scan di tempat)</option>
+                <option value="tunai">Tunai</option>
+                <option value="transfer">Transfer</option>
+            </select>
+
+            <div class="total">
+                <h3>Total Harga: <span id="totalOrderPrice">Rp 0</span></h3>
+            </div>
+
+            <button type="submit">Pesan</button>
+        </form>
+        <div id="notification" class="hidden">
+            <span id="notifText">Pemesanan berhasil! Kami akan menghubungi Anda segera.</span>
+        </div>
+    </main>
+    <script src="scripts-pemesanan.js"></script>
+</body>
+</html>
